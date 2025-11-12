@@ -1,0 +1,65 @@
+### testReceitas.rest
+
+### Necessário para pegar o token
+### Post
+# @name loginAutenticado
+POST http://localhost:40000/Login HTTP/1.1
+content-type: application/json
+
+{
+  "UserName": "qwe",
+  "Password": "qwe"
+}
+
+### Seta o token
+@accessToken = {{loginAutenticado.response.body.$.token}}
+@username = {{loginAutenticado.response.body.$.username}}
+
+
+### teste de buscar todas as receitas
+GET http://localhost:40000/GetAllReceitas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+### teste de buscar receita por ID
+POST http://localhost:40000/GetReceitaByID HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "receita_id": 1
+}
+
+### teste de inserção de receita
+POST http://localhost:40000/InsertReceitas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "paciente_id": 1,
+  "descricao": "Ibuprofeno 400mg — 1 comp a cada 8h por 5 dias",
+  "data_emissao": "2025-11-05",
+  "valor_total": 32.90
+}
+
+### teste de atualização de receita
+POST http://localhost:40000/UpdateReceitas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "receita_id": 1,
+  "paciente_id": 1,
+  "descricao": "Ibuprofeno 400mg — ajustar para 1 comp a cada 12h por 5 dias",
+  "data_emissao": "2025-11-06",
+  "valor_total": 34.50
+}
+
+### teste de deleção (soft delete) de receita
+POST http://localhost:40000/DeleteReceitas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "receita_id": 1
+}
