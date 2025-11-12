@@ -1,0 +1,63 @@
+### testExames.rest
+
+### Necessário para pegar o token
+### Post
+# @name loginAutenticado
+POST http://localhost:40000/Login HTTP/1.1
+content-type: application/json
+
+{
+  "UserName": "qwe",
+  "Password": "qwe"
+}
+
+### Seta o token
+@accessToken = {{loginAutenticado.response.body.$.token}}
+@username = {{loginAutenticado.response.body.$.username}}
+
+
+### teste de buscar todos os exames
+GET http://localhost:40000/GetAllExames HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+### teste de buscar exame por ID
+POST http://localhost:40000/GetExameByID HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "exame_id": 1
+}
+
+### teste de inserção de exame
+POST http://localhost:40000/InsertExames HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "nome": "Hemograma Completo",
+  "descricao": "Avaliação geral das células sanguíneas",
+  "valor": 120.00
+}
+
+### teste de atualização de exame
+POST http://localhost:40000/UpdateExames HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "exame_id": 1,
+  "nome": "Hemograma Completo (Atualizado)",
+  "descricao": "Avaliação hematológica completa com plaquetas",
+  "valor": 135.50
+}
+
+### teste de deleção (soft delete) de exame
+POST http://localhost:40000/DeleteExames HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "exame_id": 1
+}
