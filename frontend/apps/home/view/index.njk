@@ -1,0 +1,78 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+  
+  <ol class="breadcrumb mb-2">
+    <li class="breadcrumb-item active">{{title}}</li>
+  </ol>
+
+  <div class="row mb-4">
+    
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3"> 
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              <h5 class="card-title">Exames Vencidas</h5>
+              <p class="card-text h1">{{ parametros.vencidas_count }}</p>
+            </div>
+            <div class="col-4 text-right">
+              <i class="fas fa-exclamation-triangle fa-3x"></i> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3"> 
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              <h5 class="card-title">Exames</h5>
+              <p class="card-text h1">{{ parametros.a_pagar_count }}</p>
+            </div>
+            <div class="col-4 text-right">
+              <i class="fas fa-clipboard-list fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              <h5 class="card-title">Fornecedores Cadastrados</h5>
+              <p class="card-text h1">{{ parametros.fornecedores_count }}</p>
+            </div>
+            <div class="col-4 text-right">
+              <i class="fas fa-truck fa-3x"></i> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row bg-default">
+    <div class="col-xl-12 bg-default">
+      <div class="card-body home text-center">
+        <div class="col-xl-5 mx-auto">
+          <img src="static/assets/img/logo.png" width='90%' alt="Logo da Aplicação"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  window.onload = function () {
+    windowOnLoad();
+
+  };
+</script>
+
+
+{% endblock %}
