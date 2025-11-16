@@ -6,7 +6,7 @@ const appLogin         = require("../apps/login/controller/ctlLogin");
 const appPacientes     = require("../apps/pacientes/controller/ctlPacientes");
 const appExames        = require("../apps/exames/controller/ctlExames");
 const appReceitas      = require("../apps/receitas/controller/ctlReceitas");
-const appExamePaciente = require("../apps/examePaciente/controller/ctlExame_paciente");
+const appExamePaciente = require("../apps/examePaciente/controller/ctlExame_Paciente");
 
 // Middleware global (placeholder)
 routerApp.use((req, res, next) => {
