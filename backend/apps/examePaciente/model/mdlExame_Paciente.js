@@ -1,4 +1,4 @@
-// apps/exame_paciente/model/mdlExame_paciente.js
+// apps/exame_paciente/model/mdlExame_Paciente.js
 const db = require("../../../database/databaseconfig");
 
 // GetAllExamePaciente

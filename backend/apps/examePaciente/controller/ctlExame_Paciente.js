@@ -1,4 +1,4 @@
-// apps/exame_paciente/controller/ctlExame_paciente.js
+// apps/exame_paciente/controller/ctlExame_Paciente.js
 const mdlExamePaciente = require("../model/mdlExame_Paciente");
 
 // GetAllExamePaciente
