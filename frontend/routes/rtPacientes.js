@@ -10,7 +10,7 @@ function authenticationMiddleware(req, res, next) {
     isLogged = req.session.isLogged;    
   
     if (!isLogged) {      
-      res.redirect("/Login");
+      res.redirect("/Login"); 
     }
     next();
 }; 

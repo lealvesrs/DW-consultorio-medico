@@ -30,7 +30,7 @@ CREATE TABLE receitas (
   receita_id   BIGSERIAL PRIMARY KEY,
   paciente_id  BIGINT NOT NULL,
   descricao    TEXT NOT NULL CHECK (btrim(descricao) <> ''),
-  data_emissao DATE NOT NULL,
+  data_emissao TIMESTAMP NOT NULL,
   valor_total  NUMERIC(9,2) NOT NULL DEFAULT 0 CHECK (valor_total >= 0),
   removido     BOOLEAN NOT NULL DEFAULT FALSE,
   CONSTRAINT fk_receitas_paciente
