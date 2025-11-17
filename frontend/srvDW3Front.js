@@ -16,6 +16,8 @@ var rtIndex = require('./routes/rtIndex');
 var rtExames = require('./routes/rtExames');
 var rtPacientes = require('./routes/rtPacientes');
 var rtReceitas = require('./routes/rtReceitas');
+var rtExamePaciente = require('./routes/rtExamePaciente');
+
 jwtchave = process.env.JWTCHAVE;
 
 
@@ -48,7 +50,7 @@ app.use('/', rtIndex);
 app.use('/exames', rtExames);
 app.use('/pacientes', rtPacientes);
 app.use('/receitas', rtReceitas);
-
+app.use('/examePaciente', rtExamePaciente);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

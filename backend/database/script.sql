@@ -45,7 +45,7 @@ CREATE TABLE exame_paciente (
   exame_paciente_id BIGSERIAL PRIMARY KEY,
   paciente_id       BIGINT NOT NULL,
   exame_id          BIGINT NOT NULL,
-  data_exame        DATE NOT NULL,
+  data_exame        TIMESTAMP NOT NULL,
   laudo             TEXT,
   removido          BOOLEAN NOT NULL DEFAULT FALSE,
   CONSTRAINT fk_examepac_paciente

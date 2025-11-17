@@ -5,12 +5,12 @@ const mdlExamePaciente = require("../model/mdlExame_Paciente");
 const getAllExamePaciente = (req, res) =>
   (async () => {
     let registro = await mdlExamePaciente.getAllExamePaciente();
-    for (let i = 0; i < registro.length; i++) {
+    /* for (let i = 0; i < registro.length; i++) {
       const row = registro[i];
       if (row.data_exame instanceof Date) {
         row.data_exame = row.data_exame.toISOString().split("T")[0];
       }
-    }
+    } */
     res.json({ status: "ok", registro });
   })();
 
