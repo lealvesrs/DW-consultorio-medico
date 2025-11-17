@@ -6,10 +6,10 @@
 POST http://localhost:40000/Login HTTP/1.1  
 content-type: application/json  
 
-{      
-  "username": "qwe",  
-  "password": "qwe"  
-}  
+{
+  "UserName": "qwe",
+  "Password": "qwe"
+}
 
 ### Seta o token  
 @accessToken = {{loginAutenticado.response.body.$.token}}  
@@ -37,7 +37,7 @@ Authorization: Bearer {{accessToken}}
 {      
   "paciente_id": 1,  
   "exame_id": 1,  
-  "data_exame": "2025-11-05",  
+  "data_exame": "2025-11-07",  
   "laudo": "Laudo inicial: dentro da normalidade."  
 }  
 

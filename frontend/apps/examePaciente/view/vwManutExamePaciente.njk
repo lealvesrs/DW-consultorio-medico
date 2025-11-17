@@ -1,0 +1,76 @@
+{% extends "templates/base.html" %}
+
+{% block content %}
+
+  <ol class="breadcrumb mb-2">
+    <li class="breadcrumb-item active">{{title}}</li>
+  </ol>
+  <div class="row">
+    <div class="col-xl-12">
+
+      <div class="card-body">
+        <div class="">
+          <div style="margin-bottom: 15px;">
+            <a href="/examePaciente/insertExamePaciente" class="btn btn-brown">
+              Inserir novo Exame Realizado 
+            </a>
+          </div>
+
+          <div style="background-color: #cef5f3">
+            <table id="tabExamePaciente" class="display" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Ação</th> 
+                  <th>ID</th>
+                  <th>Laudo</th>
+                  <th>Data Exame</th>
+                  <th>Exame</th>
+                  <th>Paciente</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reg in data %}
+                  <tr>
+                    <td>
+                      {# Link para visualização dos dados #}
+                      <a href="/examePaciente/ViewExamePaciente/{{ reg.exame_paciente_id }}"  title="Visualizar">
+                        <i class="fas fa-search"></i>
+                      </a>
+
+                      {# Link para atualização e remoção dos dados#}
+                      <a href="/examePaciente/UpdateExamePaciente/{{ reg.exame_paciente_id }}" title="Atualizar" style="margin-left: 10px;">
+                        <i class="fas fa-pencil-alt"></i>
+                      </a>
+                    </td>
+                    <td>{{reg.exame_paciente_id}}</td>
+                    <td>{{reg.laudo}}</td>
+                    
+                    <td>{{ reg.data_exame }}</td>
+                    <td>{{reg.exame_id}}</td>
+                    <td>{{reg.paciente_id}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    window.onload = function () {
+      windowOnLoad();
+      //@ Caso tenha dado erro no servidor frontEnd, ele será mostrado aqui.
+      const localErro = "{{erro}}";
+      if (localErro != "") {
+        alert("[vwExamePaciente|onload]Servidor retornou o erro:" + localErro);
+      }
+
+      new DataTable('#tabExamePaciente');
+    };
+  </script>
+
+{% endblock %}
