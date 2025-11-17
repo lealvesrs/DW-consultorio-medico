@@ -20,7 +20,7 @@ const homeController = async (req, res) => {
       const dataAtual = new Date();
       
       examesResp.data.registro.forEach((exame) => {
-        const dataVencimento = new Date(exame.data_vencimento);
+        const dataVencimento = new Date(exame.data_emissao);
         
         if (dataVencimento < dataAtual) {
           vencidas_count++;

@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS exame_paciente (
                     REFERENCES exames(exame_id)
                     ON UPDATE CASCADE
                     ON DELETE RESTRICT,
-  data_exame        DATE NOT NULL,
+  data_exame        TIMESTAMP NOT NULL,
   laudo             TEXT,
   removido          BOOLEAN NOT NULL DEFAULT FALSE,
   CONSTRAINT uq_exame_paciente UNIQUE (paciente_id, exame_id, data_exame)

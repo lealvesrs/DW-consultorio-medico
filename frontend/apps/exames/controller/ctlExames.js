@@ -20,7 +20,7 @@ const manutExames = async (req, res) =>
             }
         });
         resp.data.registro.forEach((exame) => {
-            exame.data_vencimento = moment(exame.data_vencimento).format("DD/MM/YYYY");
+            exame.data_emissao = moment(exame.data_emissao).format("DD/MM/YYYY");
         });
     } catch (error) {
         if (error.code === "ECONNREFUSED") {
@@ -52,29 +52,6 @@ const insertExames = async (req, res) =>
   (async () => {
     if (req.method == "GET") {
       const token = req.session.token;
-
-      //@ Busca os pacientes disponíveis
-    /*   let pacientes = null;
-      try {
-        pacientes = await axios.get(
-          process.env.SERVIDOR_DW3Back + "/GetAllPacientes", { // MUDANÇA: /GetAllPacientes -> /GetAllPacientes
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}` // Set JWT token in the header
-          }
-        });
-      } catch (error) {
-        console.error('Erro ao buscar pacientes no servidor backend:', error.message);
-        // Pode-se tratar o erro aqui, por exemplo, renderizando a página sem a lista
-        // Ou com uma mensagem de erro específica para o formulário
-        return res.render("exames/view/vwFCrExames.njk", {
-            title: "Cadastro de Exames ",
-            data: null,
-            erro: `Erro ao carregar paciente: ${error.message}`,
-            userName: null,
-          });
-      } */
-
 
       return res.render("exames/view/vwFCrExames.njk", {
         title: "Cadastro de Exames ",
@@ -149,18 +126,6 @@ const ViewExames = async (req, res) =>
         );
 
         if (response.data.status == "ok") {
-          //@ Busca os pacientes disponíveis
-        /*   const pacientes = await axios.get(
-            process.env.SERVIDOR_DW3Back + "/GetAllPacientes", { 
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}` // Set JWT token in the header
-            }
-          });
-
-          response.data.registro[0].data_vencimento = moment(response.data.registro[0].data_vencimento).format(
-            "YYYY-MM-DD"
-          ); */
 
           res.render("exames/view/vwFRUDrExames.njk", {
             title: "Visualização de Exames ",
@@ -209,16 +174,6 @@ const UpdateExame = async (req, res) =>
         );
         // console.log('[ctlExames|UpdateExame] Dados retornados:', response.data);
         if (response.data.status == "ok") {
-          //@ Busca os pacientes disponíveis
-         /*  const pacientes = await axios.get(
-            process.env.SERVIDOR_DW3Back + "/GetAllPacientes", { 
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}` // Set JWT token in the header
-            }
-          }); */
-
-      
 
           res.render("exames/view/vwFRUDrExames.njk", {
             title: "Atualização de dados de Exames ", 
