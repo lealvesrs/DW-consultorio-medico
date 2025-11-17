@@ -11,7 +11,7 @@ const getAllPacientes = (req, res) =>
 // GetPacienteByID
 const getPacienteByID = (req, res) =>
   (async () => {
-    const pacienteID = parseInt(req.body.pacienteid);
+    const pacienteID = parseInt(req.body.paciente_id);
     const registro = await mdlPacientes.getPacienteByID(pacienteID);
     res.json({ status: "ok", registro });
   })();
@@ -28,7 +28,7 @@ const insertPacientes = (req, res) =>
 // UpdatePacientes
 const updatePacientes = (req, res) =>
   (async () => {
-    // Esperado no body: { pacienteid, cpf, nome, endereco, telefone }
+    // Esperado no body: { paciente_id, cpf, nome, endereco, telefone }
     const registro = req.body;
     const { msg, linhasAfetadas } = await mdlPacientes.updatePacientes(registro);
     res.json({ status: msg, linhasAfetadas });
@@ -37,7 +37,7 @@ const updatePacientes = (req, res) =>
 // DeletePacientes (soft delete)
 const deletePacientes = (req, res) =>
   (async () => {
-    // Esperado no body: { pacienteid }
+    // Esperado no body: { paciente_id }
     const registro = req.body;
     const { msg, linhasAfetadas } = await mdlPacientes.deletePacientes(registro);
     res.json({ status: msg, linhasAfetadas });

@@ -1,14 +1,14 @@
 const axios = require("axios");
 
-// Listagem/manutenção de fornecedores
-const manutFornecedores = async (req, res) =>
+// Listagem/manutenção de pacientes
+const manutPacientes = async (req, res) =>
   (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
 
     try {
       const resp = await axios.get(
-        process.env.SERVIDOR_DW3Back + "/GetAllFornecedores",
+        process.env.SERVIDOR_DW3Back + "/GetAllPacientes",
         {
           headers: {
             "Content-Type": "application/json",
@@ -18,8 +18,8 @@ const manutFornecedores = async (req, res) =>
         }
       );
 
-      res.render("fornecedores/view/vwManutFornecedores.njk", {
-        title: "Manutenção de fornecedores",
+      res.render("pacientes/view/vwManutPacientes.njk", {
+        title: "Manutenção de pacientes",
         data: resp.data.registro,
         erro: null,
         userName: userName,
@@ -34,8 +34,8 @@ const manutFornecedores = async (req, res) =>
         remoteMSG = error.message || "Erro inesperado";
       }
 
-      res.render("fornecedores/view/vwManutFornecedores.njk", {
-        title: "Manutenção de fornecedores",
+      res.render("pacientes/view/vwManutPacientes.njk", {
+        title: "Manutenção de pacientes",
         data: null,
         erro: remoteMSG,
         userName: userName,
@@ -43,15 +43,15 @@ const manutFornecedores = async (req, res) =>
     }
   })();
 
-// Criação de fornecedores
-const insertFornecedores = async (req, res) =>
+// Criação de pacientes
+const insertPacientes = async (req, res) =>
   (async () => {
     const token = req.session.token;
 
     if (req.method === "GET") {
       // Abre formulário de criação
-      return res.render("fornecedores/view/vwFCrFornecedores.njk", {
-        title: "Cadastro de fornecedores",
+      return res.render("pacientes/view/vwFCrPacientes.njk", {
+        title: "Cadastro de pacientes",
         data: null,
         erro: null,
         userName: null,
@@ -63,7 +63,7 @@ const insertFornecedores = async (req, res) =>
 
     try {
       const response = await axios.post(
-        process.env.SERVIDOR_DW3Back + "/InsertFornecedores",
+        process.env.SERVIDOR_DW3Back + "/InsertPacientes",
         regData,
         {
           headers: {
@@ -90,19 +90,20 @@ const insertFornecedores = async (req, res) =>
     }
   })();
 
-// Visualização (read-only) de fornecedor
-const ViewFornecedores = async (req, res) =>
+// Visualização (read-only) de paciente
+const ViewPacientes = async (req, res) =>
   (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
 
     try {
       if (req.method === "GET") {
-        const id = parseInt(req.params.id);
-
+        const id = req.params.id;
+        parseInt(id);
+        console.log(id)
         const response = await axios.post(
-          process.env.SERVIDOR_DW3Back + "/GetFornecedorByID",
-          { fornecedor_id: id },
+          process.env.SERVIDOR_DW3Back + "/GetPacienteByID",
+          { paciente_id: id },
           {
             headers: {
               "Content-Type": "application/json",
@@ -113,34 +114,35 @@ const ViewFornecedores = async (req, res) =>
         );
 
         if (response.data.status === "ok" && response.data.registro?.[0]) {
-          res.render("fornecedores/view/vwFRUDrFornecedores.njk", {
-            title: "Visualização de fornecedores",
+          res.render("pacientes/view/vwFRUDrPacientes.njk", {
+            title: "Visualização de pacientes",
             data: response.data.registro[0],
             disabled: true,
             userName: userName,
           });
         } else {
-          res.json({ status: "[ctlFornecedores|ViewFornecedores] Fornecedor não localizado!" });
+          res.json({ status: "[ctlPacientes|ViewPacientes] Paciente não localizado!" });
         }
       }
     } catch (erro) {
-      res.json({ status: "[ctlFornecedores|ViewFornecedores] Erro não identificado!" });
+      res.json({ status: "[ctlPacientes|ViewPacientes] Erro não identificado!" });
     }
   })();
 
-// Atualização de fornecedor
-const UpdateFornecedor = async (req, res) =>
+// Atualização de paciente
+const UpdatePaciente = async (req, res) =>
   (async () => {
     const userName = req.session.userName;
     const token = req.session.token;
 
     try {
       if (req.method === "GET") {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
+        parseInt(id);
 
         const response = await axios.post(
-          process.env.SERVIDOR_DW3Back + "/GetFornecedorByID",
-          { fornecedor_id: id },
+          process.env.SERVIDOR_DW3Back + "/GetPacienteByID",
+          { paciente_id: id },
           {
             headers: {
               "Content-Type": "application/json",
@@ -151,14 +153,14 @@ const UpdateFornecedor = async (req, res) =>
         );
 
         if (response.data.status === "ok" && response.data.registro?.[0]) {
-          res.render("fornecedores/view/vwFRUDrFornecedores.njk", {
-            title: "Atualização de fornecedores",
+          res.render("pacientes/view/vwFRUDrPacientes.njk", {
+            title: "Atualização de pacientes",
             data: response.data.registro[0],
             disabled: false,
             userName: userName,
           });
         } else {
-          res.json({ status: "[ctlFornecedores|UpdateFornecedor] Dados não localizados" });
+          res.json({ status: "[ctlPacientes|UpdatePaciente] Dados não localizados" });
         }
       } else {
         // POST: atualiza
@@ -166,7 +168,7 @@ const UpdateFornecedor = async (req, res) =>
 
         try {
           const response = await axios.post(
-            process.env.SERVIDOR_DW3Back + "/UpdateFornecedores",
+            process.env.SERVIDOR_DW3Back + "/UpdatePacientes",
             regData,
             {
               headers: {
@@ -193,19 +195,19 @@ const UpdateFornecedor = async (req, res) =>
         }
       }
     } catch (erro) {
-      res.json({ status: "[ctlFornecedores|UpdateFornecedor] Erro não identificado!" });
+      res.json({ status: "[ctlPacientes|UpdatePaciente] Erro não identificado!" });
     }
   })();
 
-// Exclusão de fornecedor
-const DeleteFornecedor = async (req, res) =>
+// Exclusão de paciente
+const DeletePaciente = async (req, res) =>
   (async () => {
     const token = req.session.token;
     const regData = req.body;
 
     try {
       const response = await axios.post(
-        process.env.SERVIDOR_DW3Back + "/DeleteFornecedores",
+        process.env.SERVIDOR_DW3Back + "/DeletePacientes",
         regData,
         {
           headers: {
@@ -233,9 +235,9 @@ const DeleteFornecedor = async (req, res) =>
   })();
 
 module.exports = {
-  manutFornecedores,
-  insertFornecedores,
-  ViewFornecedores,
-  UpdateFornecedor,
-  DeleteFornecedor,
+  manutPacientes,
+  insertPacientes,
+  ViewPacientes,
+  UpdatePaciente,
+  DeletePaciente,
 };

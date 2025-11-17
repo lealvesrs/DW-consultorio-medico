@@ -49,14 +49,14 @@ const homeController = async (req, res) => {
     erro: remoteMSG, 
     vencidas_count: vencidas_count, 
     a_pagar_count: a_pagar_count, 
-    fornecedores_count: 5, 
+    pacientes_count: 5, 
   };
 
   res.render("home/view/index.njk", { parametros });
 };
 
-async function totalFornecedores(token){
-  const fornResp = await axios.get(process.env.SERVIDOR_DW3Back + "/GetAllFornecedores", {
+async function totalPacientes(token){
+  const fornResp = await axios.get(process.env.SERVIDOR_DW3Back + "/GetAllPacientes", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`

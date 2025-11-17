@@ -27,7 +27,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "pacienteid": 1
+  "paciente_id": 1
 }
 
 ### teste de inserção de paciente
@@ -48,7 +48,7 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "pacienteid": 1,
+  "paciente_id": 1,
   "cpf": "12345678901",
   "nome": "João da Silva (Atualizado)",
   "endereco": "Av. Central, 200",
@@ -61,5 +61,5 @@ content-type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "pacienteid": 1
+  "paciente_id": 1
 }
