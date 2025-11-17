@@ -53,24 +53,24 @@ const insertExames = async (req, res) =>
     if (req.method == "GET") {
       const token = req.session.token;
 
-      //@ Busca os fornecedores disponíveis
-    /*   let fornecedores = null;
+      //@ Busca os pacientes disponíveis
+    /*   let pacientes = null;
       try {
-        fornecedores = await axios.get(
-          process.env.SERVIDOR_DW3Back + "/GetAllFornecedores", { // MUDANÇA: /GetAllFornecedores -> /GetAllFornecedores
+        pacientes = await axios.get(
+          process.env.SERVIDOR_DW3Back + "/GetAllPacientes", { // MUDANÇA: /GetAllPacientes -> /GetAllPacientes
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}` // Set JWT token in the header
           }
         });
       } catch (error) {
-        console.error('Erro ao buscar fornecedores no servidor backend:', error.message);
+        console.error('Erro ao buscar pacientes no servidor backend:', error.message);
         // Pode-se tratar o erro aqui, por exemplo, renderizando a página sem a lista
         // Ou com uma mensagem de erro específica para o formulário
         return res.render("exames/view/vwFCrExames.njk", {
             title: "Cadastro de Exames ",
             data: null,
-            erro: `Erro ao carregar fornecedor: ${error.message}`,
+            erro: `Erro ao carregar paciente: ${error.message}`,
             userName: null,
           });
       } */
@@ -149,9 +149,9 @@ const ViewExames = async (req, res) =>
         );
 
         if (response.data.status == "ok") {
-          //@ Busca os fornecedores disponíveis
-        /*   const fornecedores = await axios.get(
-            process.env.SERVIDOR_DW3Back + "/GetAllFornecedores", { 
+          //@ Busca os pacientes disponíveis
+        /*   const pacientes = await axios.get(
+            process.env.SERVIDOR_DW3Back + "/GetAllPacientes", { 
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}` // Set JWT token in the header
@@ -209,9 +209,9 @@ const UpdateExame = async (req, res) =>
         );
         // console.log('[ctlExames|UpdateExame] Dados retornados:', response.data);
         if (response.data.status == "ok") {
-          //@ Busca os fornecedores disponíveis
-         /*  const fornecedores = await axios.get(
-            process.env.SERVIDOR_DW3Back + "/GetAllFornecedores", { 
+          //@ Busca os pacientes disponíveis
+         /*  const pacientes = await axios.get(
+            process.env.SERVIDOR_DW3Back + "/GetAllPacientes", { 
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}` // Set JWT token in the header

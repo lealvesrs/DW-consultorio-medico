@@ -11,18 +11,19 @@
       <div class="card-body">
         <div>
           <div style="margin-bottom: 15px;">
-            <a href="/fornecedores/InsertFornecedores" class="btn btn-brown">
-              Inserir novo fornecedor
+            <a href="/pacientes/InsertPacientes" class="btn btn-brown">
+              Inserir novo paciente
             </a>
           </div>
 
           <div>
-            <table id="tabFornecedores" class="display" style="width:100%">
+            <table id="tabPacientes" class="display" style="width:100%">
               <thead>
                 <tr>
                   <th>Ação</th>
                   <th>ID</th>
                   <th>Nome</th>
+                  <th>CPF</th>
                   <th>Telefone</th>
                   <th>Endereço</th>
                 </tr>
@@ -31,15 +32,16 @@
                 {% for reg in data %}
                   <tr>
                     <td>
-                      <a href="/fornecedores/ViewFornecedores/{{ reg.id }}" title="Visualizar">
+                      <a href="/pacientes/ViewPacientes/{{ reg.paciente_id }}" title="Visualizar">
                         <i class="fas fa-search"></i>
                       </a>
-                      <a href="/fornecedores/UpdateFornecedores/{{ reg.id }}" title="Atualizar" style="margin-left: 10px;">
+                      <a href="/pacientes/UpdatePacientes/{{ reg.paciente_id }}" title="Atualizar" style="margin-left: 10px;">
                         <i class="fas fa-pencil-alt"></i>
                       </a>
                     </td>
-                    <td>{{ reg.id }}</td>
+                    <td>{{ reg.paciente_id }}</td>
                     <td>{{ reg.nome }}</td>
+                    <td>{{ reg.cpf }}</td>
                     <td>{{ reg.telefone }}</td>
                     <td>{{ reg.endereco }}</td>
                   </tr>
@@ -56,9 +58,9 @@
     window.onload = function () {
       const localErro = "{{ erro }}";
       if (localErro != "") {
-        alert("[vwManutFornecedores|onload] Servidor retornou o erro: " + localErro);
+        alert("[vwManutPacientes|onload] Servidor retornou o erro: " + localErro);
       }
-      new DataTable('#tabFornecedores');
+      new DataTable('#tabPacientes');
     };
   </script>
 

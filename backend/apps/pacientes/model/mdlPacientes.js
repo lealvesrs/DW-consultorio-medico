@@ -54,7 +54,7 @@ const updatePacientes = async (registroPar) => {
           "telefone = $5 " +
           "WHERE paciente_id = $1",
         [
-          registroPar.pacienteid, // PK
+          registroPar.paciente_id, // PK
           registroPar.cpf,
           registroPar.nome,
           registroPar.endereco,
@@ -76,7 +76,7 @@ const deletePacientes = async (registroPar) => {
     linhasAfetadas = (
       await db.query(
         "UPDATE pacientes SET removido = TRUE WHERE paciente_id = $1",
-        [registroPar.pacienteid]
+        [registroPar.paciente_id]
       )
     ).rowCount;
   } catch (error) {
