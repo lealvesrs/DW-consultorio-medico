@@ -1,37 +1,29 @@
 const axios = require("axios");
 
-const homeController = async (req, res) => { 
+const homeController = async (req, res) => {
   const token = req.session.token;
 
-  let vencidas_count = 0;
-  let a_pagar_count = 0;
+  let exames_hoje = 0;
+  let total_exames = 0;
   let remoteMSG = null;
 
   try {
-
-    const examesResp = await axios.get(process.env.SERVIDOR_DW3Back + "/GetAllExames", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+    const examesResp = await axios.get(
+      process.env.SERVIDOR_DW3Back + "/GetAllExames",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
 
     if (examesResp.data.registro && Array.isArray(examesResp.data.registro)) {
-      const dataAtual = new Date();
-      
       examesResp.data.registro.forEach((exame) => {
-        const dataVencimento = new Date(exame.data_emissao);
-        
-        if (dataVencimento < dataAtual) {
-          vencidas_count++;
-        } 
-        else{
-          a_pagar_count++;
-        }
+        const valor = Number(exame.valor ?? 0);
+        total_exames += isNaN(valor) ? 0 : valor;
       });
     }
-    
-
   } catch (error) {
     if (error.code === "ECONNREFUSED") {
       remoteMSG = "Servidor backend indisponível";
@@ -43,27 +35,54 @@ const homeController = async (req, res) => {
     }
   }
 
-
-  const parametros = { 
+  const parametros = {
     title: "Página Inicial",
-    erro: remoteMSG, 
-    vencidas_count: vencidas_count, 
-    a_pagar_count: a_pagar_count, 
-    pacientes_count: 5, 
+    erro: remoteMSG,
+    exames_hoje: await examesHoje(token),
+    total_exames: total_exames,
+    pacientes_count: await totalPacientes(token),
   };
 
   res.render("home/view/index.njk", { parametros });
 };
 
-async function totalPacientes(token){
-  const fornResp = await axios.get(process.env.SERVIDOR_DW3Back + "/GetAllPacientes", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+async function totalPacientes(token) {
+  const fornResp = await axios.get(
+    process.env.SERVIDOR_DW3Back + "/GetAllPacientes",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }
-  });
+  );
 
   return fornResp.data.registro.length;
+}
+
+async function examesHoje(token) {
+  const examesResp = await axios.get(
+    process.env.SERVIDOR_DW3Back + "/GetAllExamePaciente",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  let exames_hoje = 0;
+  if (examesResp.data.registro && Array.isArray(examesResp.data.registro)) {
+    const hojeStr = new Date().toISOString().slice(0, 10);
+
+    examesResp.data.registro.forEach((exame) => {
+      const dataStr = new Date(exame.data_exame).toISOString().slice(0, 10);
+      if (dataStr === hojeStr) {
+        exames_hoje++;
+      }
+    });
+   
+  }
+  return exames_hoje;
 }
 
 module.exports = {
