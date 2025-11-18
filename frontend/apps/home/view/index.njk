@@ -9,15 +9,15 @@
   <div class="row mb-4">
     
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3"> 
-      <div class="card bg-danger text-white">
+      <div class="card bg-warning text-white">
         <div class="card-body">
           <div class="row">
             <div class="col-8">
-              <h5 class="card-title">Exames Vencidas</h5>
-              <p class="card-text h1">{{ parametros.vencidas_count }}</p>
+              <h5 class="card-title">Exames agendados para Hoje</h5>
+              <p class="card-text h1">{{ parametros.exames_hoje }}</p>
             </div>
             <div class="col-4 text-right">
-              <i class="fas fa-exclamation-triangle fa-3x"></i> 
+              <i class="fas fa-calendar fa-3x"></i> 
             </div>
           </div>
         </div>
@@ -29,11 +29,11 @@
         <div class="card-body">
           <div class="row">
             <div class="col-8">
-              <h5 class="card-title">Exames</h5>
-              <p class="card-text h1">{{ parametros.a_pagar_count }}</p>
+              <h5 class="card-title">Total de Exames (R$)</h5>
+              <p class="card-text h1">{{ parametros.total_exames }}</p>
             </div>
             <div class="col-4 text-right">
-              <i class="fas fa-clipboard-list fa-3x"></i>
+              <i class="fas fa-wallet fa-3x"></i>
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
               <p class="card-text h1">{{ parametros.pacientes_count }}</p>
             </div>
             <div class="col-4 text-right">
-              <i class="fas fa-truck fa-3x"></i> 
+              <i class="fas fa-user fa-3x"></i> 
             </div>
           </div>
         </div>
