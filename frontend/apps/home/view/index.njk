@@ -25,7 +25,10 @@
     </div>
     
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3"> 
-      <div class="card bg-info text-white">
+      <div class="card bg-info text-white" 
+          style="cursor:pointer"
+          data-bs-toggle="modal"
+          data-bs-target="#modalExames">
         <div class="card-body">
           <div class="row">
             <div class="col-8">
@@ -39,6 +42,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
       <div class="card bg-success text-white">
@@ -67,11 +71,57 @@
     </div>
   </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="modalExames" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title">Exames por dia (R$)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <canvas id="chartExames"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 <script>
   window.onload = function () {
     windowOnLoad();
+    const EXAMES_POR_DIA = {{ parametros.exames_por_dia | dump | safe }};
+    let chartExames = null;
 
+    function montarGraficoExames() {
+      const ctx = document.getElementById('chartExames').getContext('2d');
+
+      const labels = Object.keys(EXAMES_POR_DIA).sort();
+      const valores = labels.map(d => EXAMES_POR_DIA[d]);
+
+      if (chartExames) chartExames.destroy(); // evita duplicar
+
+      chartExames = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Total de Exames (R$)',
+            data: valores,
+            borderWidth: 2,
+            tension: 0.3
+          }]
+        }
+      });
+    }
+
+    document.getElementById('modalExames')
+      .addEventListener('shown.bs.modal', montarGraficoExames);
   };
+  
 </script>
 
 
