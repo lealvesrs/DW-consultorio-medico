@@ -3,88 +3,76 @@ const axios = require("axios");
 const homeController = async (req, res) => {
   const token = req.session.token;
 
-  let exames_hoje = 0;
-  let total_exames = 0;
-  let remoteMSG = null;
-
   try {
-    const examesResp = await axios.get(
-      process.env.SERVIDOR_DW3Back + "/GetAllExames",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const [examesResp, examesRealizadosResp, pacientesResp] = await Promise.all([
+      axios.get(process.env.SERVIDOR_DW3Back + "/GetAllExames", {
+        headers: { Authorization: `Bearer ${token}` }
+      }),
+      axios.get(process.env.SERVIDOR_DW3Back + "/GetAllExamePaciente", {
+        headers: { Authorization: `Bearer ${token}` }
+      }),
+      axios.get(process.env.SERVIDOR_DW3Back + "/GetAllPacientes", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+    ]);
 
-    if (examesResp.data.registro && Array.isArray(examesResp.data.registro)) {
-      examesResp.data.registro.forEach((exame) => {
-        const valor = Number(exame.valor ?? 0);
-        total_exames += isNaN(valor) ? 0 : valor;
-      });
-    }
-  } catch (error) {
-    if (error.code === "ECONNREFUSED") {
-      remoteMSG = "Servidor backend indisponível";
-    } else if (error.response && error.response.status === 401) {
-      remoteMSG = "Sessão expirada. Faça login novamente.";
-    } else {
-      remoteMSG = "Erro desconhecido ao carregar dados do painel.";
-      console.error(remoteMSG, error.message);
-    }
-  }
+    const exames = examesResp.data.registro ?? [];
+    const realizados = examesRealizadosResp.data.registro ?? [];
+    const pacientes = pacientesResp.data.registro ?? [];
 
-  const parametros = {
-    title: "Página Inicial",
-    erro: remoteMSG,
-    exames_hoje: await examesHoje(token),
-    total_exames: total_exames,
-    pacientes_count: await totalPacientes(token),
-  };
 
-  res.render("home/view/index.njk", { parametros });
-};
-
-async function totalPacientes(token) {
-  const fornResp = await axios.get(
-    process.env.SERVIDOR_DW3Back + "/GetAllPacientes",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  return fornResp.data.registro.length;
-}
-
-async function examesHoje(token) {
-  const examesResp = await axios.get(
-    process.env.SERVIDOR_DW3Back + "/GetAllExamePaciente",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  let exames_hoje = 0;
-  if (examesResp.data.registro && Array.isArray(examesResp.data.registro)) {
-    const hojeStr = new Date().toISOString().slice(0, 10);
-
-    examesResp.data.registro.forEach((exame) => {
-      const dataStr = new Date(exame.data_exame).toISOString().slice(0, 10);
-      if (dataStr === hojeStr) {
-        exames_hoje++;
-      }
+    const valoresPorExame = {};
+    exames.forEach(ex => {
+      valoresPorExame[ex.exame_id] = Number(ex.valor ?? 0);
     });
-   
-  }
-  return exames_hoje;
-}
 
-module.exports = {
-  homeController,
+
+    const exames_por_dia = {};
+    realizados.forEach(reg => {
+      const dia = reg.data_exame?.slice(0, 10);
+      if (!dia) return;
+
+      const valor = valoresPorExame[String(reg.exame_id)] ?? 0;
+
+      if (!exames_por_dia[dia]) exames_por_dia[dia] = 0;
+      exames_por_dia[dia] += valor;
+    });
+
+    const total_exames = Object.values(exames_por_dia)
+      .reduce((acc, v) => acc + v, 0);
+
+    const hoje = new Date().toISOString().slice(0, 10);
+    const exames_hoje = realizados.filter(r =>
+      r.data_exame?.slice(0, 10) === hoje
+    ).length;
+
+
+    const pacientes_count = pacientes.length;
+
+    res.render("home/view/index.njk", {
+      parametros: {
+        title: "Página Inicial",
+        erro: null,
+        exames_hoje,
+        total_exames,
+        pacientes_count,
+        exames_por_dia: exames_por_dia
+      },  
+    });
+
+  } catch (error) {
+    console.error("Erro no dashboard:", error);
+    res.render("home/view/index.njk", {
+      parametros: {
+        title: "Página Inicial",
+        erro: "Erro ao carregar dados.",
+        exames_hoje: 0,
+        total_exames: 0,
+        pacientes_count: 0,
+        exames_por_dia: {}
+      },
+    });
+  }
 };
+
+module.exports = { homeController };
