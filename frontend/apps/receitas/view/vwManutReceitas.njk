@@ -25,7 +25,7 @@
                   <th>Descrição</th>
                   <th>Valor Total</th>
                   <th>Data de Emissão</th>
-                  <th>Paciente ID</th>
+                  <th>Paciente</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,7 +48,7 @@
                     <td>
                         {{ reg.data_emissao }}
                     </td>
-                    <td>{{reg.paciente_id}}</td>
+                    <td>{{reg.paciente_nome}}</td>
                   </tr>
                 {% endfor %}
               </tbody>
